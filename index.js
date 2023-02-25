@@ -32,8 +32,8 @@ client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
     if(newVoiceState.selfMute) {
       const channel = await client.channels.fetch(GENERAL_CHAT_ID);
       const message = await channel.messages.fetch({limit: 1});
-      if(message.first().content !== `${newVoiceState.member.user.tag} muted themselves!` && !isWithinFiveMinutes(message.first().createdTimeStamp)) {
-        await channel.send(`${newVoiceState.member.user.tag} muted themselves!`)
+      if(message.first().content !== `${newVoiceState.member.user.username} muted themselves!` && !isWithinFiveMinutes(message.first().createdTimeStamp)) {
+        await channel.send(`${newVoiceState.member.user.username} muted themselves!`)
       }
       //channel.send(`${newVoiceState.member.user.tag} muted themselves!`);
       //channels.then(channel => channel.send(`${newVoiceState.member.user.tag} muted themselves!`))
