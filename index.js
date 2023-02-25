@@ -37,7 +37,6 @@ client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
       }
       //channel.send(`${newVoiceState.member.user.tag} muted themselves!`);
       //channels.then(channel => channel.send(`${newVoiceState.member.user.tag} muted themselves!`))
-      console.log(`${newVoiceState.member.user.tag} muted themselves!`);
       newVoiceState.member.voice.setChannel(MUTED_CHAT_ID);
     }
   }
