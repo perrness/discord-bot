@@ -21,10 +21,8 @@ client.login(token);
 
 client.on('ready', async () => {
   const channel = await client.channels.fetch(GENERAL_CHAT_ID);
-  //channel.then(test => test.send("Hello"))
   const message = await channel.messages.fetch({limit: 1});
   console.log(message.first().content);
-  //channel.then(test => console.log(test.messages.fetch({ limit: 2 })));
 });
 
 client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
@@ -35,8 +33,6 @@ client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
       if(message.first().content !== `${newVoiceState.member.user.username} muted themselves!` && !isWithinFiveMinutes(message.first().createdTimeStamp)) {
         await channel.send(`${newVoiceState.member.user.username} muted themselves!`)
       }
-      //channel.send(`${newVoiceState.member.user.tag} muted themselves!`);
-      //channels.then(channel => channel.send(`${newVoiceState.member.user.tag} muted themselves!`))
       newVoiceState.member.voice.setChannel(MUTED_CHAT_ID);
     }
   }
