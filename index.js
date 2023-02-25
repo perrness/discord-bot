@@ -19,16 +19,22 @@ client.once(Events.ClientReady, c => {
 // Log in to Discord with your client's token
 client.login(token);
 
-client.on('ready', () => {
-  const channel = client.channels.fetch(GENERAL_CHAT_ID);
+client.on('ready', async () => {
+  const channel = await client.channels.fetch(GENERAL_CHAT_ID);
   //channel.then(test => test.send("Hello"))
-  console.log(channel);
+  const message = await channel.messages.fetch({limit: 1});
+  console.log(message.first().content);
+  //channel.then(test => console.log(test.messages.fetch({ limit: 2 })));
 });
 
-client.on('voiceStateUpdate', (oldVoiceState, newVoiceState) => {
+client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
   if(oldVoiceState.selfMute !== newVoiceState.selfMute) {
     if(newVoiceState.selfMute) {
-      const channel = client.channels.fetch(GENERAL_CHAT_ID);
+      const channel = await client.channels.fetch(GENERAL_CHAT_ID);
+      const message = await channel.messages.fetch({limit: 1});
+      if(message.first().content !== `${newVoiceState.member.user.tag} muted themselves!` && isWithinFiveMinutes(message.first().createdTimeStamp)) {
+        await channel.send(`${newVoiceState.member.user.tag} muted themselves!`)
+      }
       //channel.send(`${newVoiceState.member.user.tag} muted themselves!`);
       //channels.then(channel => channel.send(`${newVoiceState.member.user.tag} muted themselves!`))
       console.log(`${newVoiceState.member.user.tag} muted themselves!`);
@@ -36,3 +42,9 @@ client.on('voiceStateUpdate', (oldVoiceState, newVoiceState) => {
     }
   }
 });
+
+const isWithinFiveMinutes = (createdTime) => {
+  var fiveMinutesAgo = (Date.now() / 1000) - (5 * 60);
+
+  return createdTime >= fiveMinutesAgo;
+}
