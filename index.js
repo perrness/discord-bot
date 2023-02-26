@@ -7,6 +7,7 @@ dotenv.config();
 const token = process.env.DISCORD_TOKEN;
 const GENERAL_CHAT_ID = process.env.GENERAL_CHAT_ID;
 const MUTED_CHAT_ID= process.env.MUTED_CHAT_ID;
+const SERVER_OWNER_ID = process.env.SERVER_OWNER_ID;
 
 const loggingWinston = new LoggingWinston();
 const logger = winston.createLogger({
@@ -38,6 +39,10 @@ client.on('ready', async () => {
 });
 
 client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
+  if(newVoiceState.member.user.id === SERVER_OWNER_ID) {
+    return;
+  }
+
   if(oldVoiceState.selfMute !== newVoiceState.selfMute) {
     if(newVoiceState.selfMute) {
       const channel = await client.channels.fetch(GENERAL_CHAT_ID);
