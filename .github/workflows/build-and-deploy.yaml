@@ -36,4 +36,4 @@ jobs:
       - name: Deploy
         id: 'deploy'
         run: |
-          gcloud compute instances update-container jeff-bot-vm --zone europe-north1-a --container-image=europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }}
+          gcloud compute instances update-container jeff-bot2-vm --zone europe-north1-a --container-image=europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }}
