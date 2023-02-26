@@ -2,11 +2,12 @@ name: Build and deploy
 
 on: workflow_dispatch
 
+permissions:
+  contents: 'read'
+  id-token: 'write'
+
 jobs:
   build-and-push-to-gcr:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,7 +36,7 @@ jobs:
         id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
-          service: 'rust-finance'
+          service: 'jeff-bot'
           region: 'europe-north1'
           image: 'europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }}'
 
