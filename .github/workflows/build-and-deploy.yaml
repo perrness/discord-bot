@@ -32,13 +32,8 @@ jobs:
       - name: Publish
         run: |
           docker push europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }}
+
       - name: Deploy
         id: 'deploy'
-        uses: 'google-github-actions/deploy-cloudrun@v1'
-        with:
-          service: 'jeff-bot'
-          region: 'europe-north1'
-          image: 'europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }}'
-
-      - name: 'Use output'
-        run: 'curl "${{ steps.deploy.outputs.url }}"'
+        run: |
+          gcloud compute instances update-container jeff-bot-vm --zone europe-north1-a --container-image=europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }}
