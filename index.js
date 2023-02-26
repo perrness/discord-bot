@@ -56,7 +56,7 @@ client.on('voiceStateUpdate', async (oldVoiceState, newVoiceState) => {
 });
 
 const isWithinFiveMinutes = (createdTime) => {
-  var fiveMinutesAgo = (Date.now() / 1000) - (5 * 60);
+  var createdDate = new Date(createdTime * 1000);
 
-  return createdTime >= fiveMinutesAgo;
+  return (Date.now() - createdDate) <= (5 * 60 * 1000);
 }
