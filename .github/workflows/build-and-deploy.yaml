@@ -25,6 +25,9 @@ jobs:
       - name: 'Authenticate'
         run: |
           gcloud auth configure-docker europe-north1-docker.pkg.dev
+      - name: 'Set google Account'
+        run: |
+          gcloud config set account ${{ secrets.SERVICE_ACCOUNT }}
       - name: Build
         run: |
           docker build -t europe-north1-docker.pkg.dev/jeff-bot-379007/jeff-bot/jeff-bot:${{ github.sha }} .
